@@ -1,0 +1,26 @@
+.user-box {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 10px 5px;
+  margin: 10px 0;
+  background-color: lightgray;
+  cursor: pointer;
+  .avatar {
+    display: inline-block;
+    height: 100%;
+    margin-right: 5px;
+  }
+  .infos {
+    display: inline-block;
+    vertical-align: top;
+    color: darkslategray;
+    .username {
+      text-transform: uppercase;
+      color: darkslateblue;
+      font-size: 18px;
+    }
+    .gender {
+      text-transform: capitalize;
+    }
+  }
+}

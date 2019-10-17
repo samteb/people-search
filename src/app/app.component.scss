@@ -1,0 +1,71 @@
+.title {
+  text-transform: uppercase;
+  color: darkslateblue;
+}
+
+.search-container {
+  width: 100%;
+  padding-bottom: 25px;
+  border-bottom: 1px solid grey;
+  .search-bar {
+    width: 70%;
+    input {
+      width: calc(100% - 151px);
+      padding: 6px 12px;
+      margin: 0;
+      height: 40px;
+      line-height: 1.5;
+      font-size: 14px;
+      color: darkslategray;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid grey;
+      border-radius: 5px;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    button {
+      width: 120px;
+      height: 54px;
+      margin-left: 5px;
+      font-weight: 400;
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+      vertical-align: middle;
+      padding: 6px 12px;
+      line-height: 1.5;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      cursor: pointer;
+      color: darkslategray;
+      background-color: lightgray;
+      border: 1px solid grey;
+      border-radius: 5px;
+      &:disabled {
+        cursor: default;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.results-container {
+  width: 100%;
+  padding-top: 20px;
+  .users-list {
+    margin-bottom: 30px;
+  }
+  .left {
+    display: inline-block;
+    width: 70%;
+  }
+  .right {
+    display: inline-block;
+    width: calc(30% - 10px);
+    vertical-align: top;
+    margin-left: 10px;
+  }
+  .pagination::ng-deep .ngx-pagination {
+    text-align: center;
+    padding: 0;
+  }
+}
