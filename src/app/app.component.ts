@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { ApiService } from './services/api.service';
+import { FormControl } from '@angular/forms';
+import { combineLatest, Observable } from 'rxjs';
+import { map, startWith, debounceTime } from 'rxjs/operators';
 import { User } from './models/user.model';
-import { Subject } from "rxjs";
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -10,33 +12,32 @@ import { Subject } from "rxjs";
 })
 
 export class AppComponent {
-  users$ = new Subject<User[]>();
-  usersSource: User[];
-  usersList: User[];
+  searchText: FormControl;
+  searchText$: Observable<string>;
+  users$: Observable<User[]>;
+  filteredUsers$: Observable<User[]>;
   selectedUser: User = null;
-  searchText = '';
   page = 1;
+  disableBtn = true;
 
   constructor(
     private apiService: ApiService,
   ) {
-    this.apiService.getUsers(100).subscribe(users => {
-      this.usersSource = users;
-      this.usersList = users;
-    });
-    this.users$.subscribe(users => this.usersList = users);
+    this.searchText = new FormControl('');
+    this.searchText$ = this.searchText.valueChanges.pipe(startWith(''));
+    this.users$ = this.apiService.getUsers(100);
+    this.filteredUsers$ = combineLatest(this.users$, this.searchText$).pipe(
+      debounceTime(500),
+      map(([users, searchText]) => users.filter(user => user.username.includes(searchText.toLowerCase()) || user.email.includes(searchText.toLowerCase())))
+    );
+    this.searchText$.subscribe(value => this.disableBtn = value.length === 0);
   }
 
   selectUser(user: User) {
     this.selectedUser = user;
   }
 
-  onKeydown() {
-    this.users$.next(this.usersSource.filter(user => user.username.includes(this.searchText.toLowerCase()) || user.email.includes(this.searchText.toLowerCase())));
-  }
-
-  searchUser(searchTerm: string) {
+  searchUser() {
     this.selectedUser = null;
-    this.users$.next(this.usersSource.filter(user => user.username === searchTerm.toLowerCase() || user.email === searchTerm.toLowerCase()));
   }
 }
