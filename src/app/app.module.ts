@@ -7,13 +7,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ApiInterceptorService } from './services/api-interceptor.service';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
-import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent,
-    FilterPipe
+    UserComponent
   ],
   imports: [
     BrowserModule,
