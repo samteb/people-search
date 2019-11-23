@@ -9,5 +9,6 @@ import { User } from '../models/user.model';
 
 export class UserComponent {
   @Input() user: User;
+
   constructor() {}
 }

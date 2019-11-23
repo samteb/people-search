@@ -4,9 +4,9 @@ import { environment } from '../../environments/environment';
 
 export class ApiInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const apiReq = req.clone({
+    const apiRequest = req.clone({
       url: `${environment.serverBaseUrl}${req.url}`
     });
-    return next.handle(apiReq);
+    return next.handle(apiRequest);
   }
 }
