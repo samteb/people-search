@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { User } from './models/user.model';
+import { User } from './models/user.interface';
 import { ApiService } from './services/api.service';
 import { StoreService } from './services/store.service';
 
