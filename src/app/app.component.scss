@@ -3,7 +3,7 @@
   color: darkslateblue;
 }
 
-.search-container {
+.top-container {
   width: 100%;
   padding-bottom: 25px;
   border-bottom: 1px solid grey;
@@ -48,24 +48,17 @@
   }
 }
 
-.results-container {
+.main-container {
+  float: left;
   width: 100%;
-  padding-top: 20px;
+  padding: 20px 0;
   .users-list {
-    margin-bottom: 30px;
+    float: left;
+    width: 60%;
   }
-  .left {
-    display: inline-block;
-    width: 70%;
-  }
-  .right {
-    display: inline-block;
-    width: calc(30% - 10px);
-    vertical-align: top;
-    margin-left: 10px;
-  }
-  .pagination::ng-deep .ngx-pagination {
-    text-align: center;
-    padding: 0;
+  .user-selected {
+    float: left;
+    width: calc(40% - 20px);
+    margin-left: 20px;
   }
 }

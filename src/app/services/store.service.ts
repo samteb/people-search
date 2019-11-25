@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.interface';
 
 @Injectable({ providedIn: 'root' })
-
 export class StoreService {
   private usersSource$ = new BehaviorSubject<User[]>([]);
   private searchTextSource$ = new BehaviorSubject<string>('');

@@ -1,23 +1,14 @@
-<h1 class="title">Clicktale People Search</h1>
-
-<div class="search-container">
+<h1 class="title">People Search</h1>
+<div class="top-container">
   <div class="search-bar">
     <input type="text" [formControl]="searchText">
-    <button (click)="searchUser()" [disabled]="disableBtn">Search</button>
   </div>
 </div>
-
-<div class="results-container">
-  <div class="left">
-    <div class="users-list" *ngIf="(filteredUsers$ | async) as users; else loading">
-      <app-user *ngFor="let user of users | paginate: { itemsPerPage: 5, currentPage: page, totalItems: users.length }" [user]="user" (click)="selectUser(user)"></app-user>
-      <pagination-controls class="pagination" (pageChange)="page = $event"></pagination-controls>
-    </div>
-    <ng-template #loading>
-      Loading users...
-    </ng-template>
+<div class="main-container">
+  <div class="users-list">
+    <router-outlet></router-outlet>
   </div>
-  <div *ngIf="selectedUser" class="right">
-    <app-user [user]="selectedUser"></app-user>
+  <div class="user-selected">
+    <router-outlet name="selected"></router-outlet>
   </div>
 </div>

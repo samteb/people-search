@@ -1,4 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { map } from 'rxjs/operators';
+
 import { User } from '../models/user.interface';
 
 @Component({
@@ -7,8 +11,28 @@ import { User } from '../models/user.interface';
   styleUrls: ['./user.component.scss']
 })
 
-export class UserComponent {
-  @Input() user: User;
+export class UserComponent implements OnInit {
+  @Input() user: User = {
+    avatar: '',
+    username: '',
+    email: '',
+    gender: ''
+  };
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    if (this.route.outlet !== 'primary') {
+      this.route.paramMap.pipe(map(() => window.history.state)).subscribe(state => {
+        if (state.user) {
+          this.user = state.user;
+        } else {
+          this.router.navigate([ { outlets: { selected: null } } ]);
+        }
+      });
+    }
+  }
 }
