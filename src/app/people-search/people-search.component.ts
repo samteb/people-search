@@ -38,6 +38,6 @@ export class PeopleSearchComponent implements OnInit {
   }
 
   selectUser(user: User) {
-    this.router.navigate([ { outlets: { selected: [ user.username ] } } ], { state: { user } });
+    return this.router.navigate([ { outlets: { selected: [ user.username ] } } ], { state: { user } });
   }
 }

@@ -25,13 +25,12 @@ export class UserComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.route.outlet !== 'primary') {
+    if (this.route.outlet === 'selected') {
       this.route.paramMap.pipe(map(() => window.history.state)).subscribe(state => {
-        if (state.user) {
-          this.user = state.user;
-        } else {
-          this.router.navigate([ { outlets: { selected: null } } ]);
+        if (!state.user) {
+          return this.router.navigate([ { outlets: { selected: null } } ]);
         }
+        this.user = state.user;
       });
     }
   }
