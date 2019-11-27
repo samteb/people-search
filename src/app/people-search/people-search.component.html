@@ -1,14 +1,19 @@
-<div *ngIf="(filteredUsers$ | async) as users; else loading">
-  <app-user
-    *ngFor="let user of users | paginate: { itemsPerPage: 5, currentPage: page, totalItems: users.length }"
-    [user]="user"
-    (click)="selectUser(user)">
-  </app-user>
-  <pagination-controls
-    class="pagination"
-    (pageChange)="page = $event">
-  </pagination-controls>
+<div class="users-list">
+  <div *ngIf="(filteredUsers$ | async) as users; else loading">
+    <app-user
+      *ngFor="let user of users | paginate: { itemsPerPage: 5, currentPage: page, totalItems: users.length }"
+      [user]="user"
+      (click)="selectUser(user)">
+    </app-user>
+    <pagination-controls
+      class="pagination"
+      (pageChange)="page = $event">
+    </pagination-controls>
+  </div>
+  <ng-template #loading>
+    Loading users...
+  </ng-template>
 </div>
-<ng-template #loading>
-  Loading users...
-</ng-template>
+<div *ngIf="selectedUser" class="user-selected">
+  <app-user [user]="selectedUser"></app-user>
+</div>

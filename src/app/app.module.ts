@@ -19,11 +19,6 @@ const ROUTES: Routes = [
     resolve: {
       users: PeopleSearchResolve
     }
-  },
-  {
-    path: ':username',
-    component: UserComponent,
-    outlet: 'selected'
   }
 ];
 

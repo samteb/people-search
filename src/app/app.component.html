@@ -1,14 +1,9 @@
-<h1 class="title">People Search</h1>
+<h1 class="title">{{ title | uppercase }}</h1>
 <div class="top-container">
   <div class="search-bar">
     <input type="text" [formControl]="searchText">
   </div>
 </div>
 <div class="main-container">
-  <div class="users-list">
-    <router-outlet></router-outlet>
-  </div>
-  <div class="user-selected">
-    <router-outlet name="selected"></router-outlet>
-  </div>
+  <router-outlet></router-outlet>
 </div>

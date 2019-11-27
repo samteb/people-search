@@ -1,5 +1,4 @@
 .title {
-  text-transform: uppercase;
   color: darkslateblue;
 }
 
@@ -52,13 +51,4 @@
   float: left;
   width: 100%;
   padding: 20px 0;
-  .users-list {
-    float: left;
-    width: 60%;
-  }
-  .user-selected {
-    float: left;
-    width: calc(40% - 20px);
-    margin-left: 20px;
-  }
 }

@@ -6,6 +6,7 @@ import { User } from '../models/user.interface';
 export class StoreService {
   private usersSource$ = new BehaviorSubject<User[]>([]);
   private searchTextSource$ = new BehaviorSubject<string>('');
+
   public readonly users$ = this.usersSource$.asObservable();
   public readonly searchText$ = this.searchTextSource$.asObservable();
 

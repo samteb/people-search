@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { combineLatest, Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map, pluck, concatMap } from "rxjs/operators";
 
 import { User } from '../models/user.interface';
 import { ApiService } from '../services/api.service';
@@ -16,17 +16,24 @@ import { StoreService } from '../services/store.service';
 
 export class PeopleSearchComponent implements OnInit {
   filteredUsers$: Observable<User[]>;
+  selectedUser: User;
   page = 1;
 
   constructor(
     private apiService: ApiService,
     private storeService: StoreService,
-    private route: ActivatedRoute,
     private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.route.data.pipe(pluck('users')).subscribe(users => this.storeService.setUsers(users));
+    this.route.queryParams.pipe(
+      pluck('username'),
+      concatMap(username => this.storeService.users$.pipe(
+        map(users => users.find(user => user.username === username))
+      ))
+    ).subscribe(user => this.selectedUser = user);
     this.filteredUsers$ = combineLatest(this.storeService.users$, this.storeService.searchText$).pipe(
       map(([users, searchText]) => this.searchFilter(users, searchText))
     );
@@ -37,7 +44,8 @@ export class PeopleSearchComponent implements OnInit {
       || user.email.includes(searchText.toLowerCase()));
   }
 
-  selectUser(user: User) {
-    return this.router.navigate([ { outlets: { selected: [ user.username ] } } ], { state: { user } });
+  selectUser(user: User): Promise<boolean> {
+    this.selectedUser = user;
+    return this.router.navigate([], { queryParams: { username: user.username } });
   }
 }

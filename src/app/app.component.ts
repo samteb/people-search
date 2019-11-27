@@ -12,6 +12,7 @@ import { StoreService } from './services/store.service';
 })
 
 export class AppComponent implements OnInit {
+  title = 'people search';
   searchText: FormControl;
 
   constructor(private storeService: StoreService) {}
