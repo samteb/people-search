@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, concatMap } from "rxjs/operators";
 
-import { User } from '../models/user.interface';
-import { ApiService } from '../services/api.service';
-import { StoreService } from '../services/store.service';
+import { User } from '../../models/user.interface';
+import { ApiService } from '../../services/api.service';
+import { StoreService } from '../../services/store.service';
 
 @Component({
   selector: 'app-people-search',

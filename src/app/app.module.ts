@@ -8,9 +8,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ApiInterceptorService } from './services/api-interceptor.service';
 import { StoreService } from './services/store.service';
 import { AppComponent } from './app.component';
-import { UserComponent } from './user/user.component';
-import { PeopleSearchComponent } from './people-search/people-search.component';
-import { PeopleSearchResolve } from './people-search/people-search.resolve';
+import { UserComponent } from './components/user/user.component';
+import { PeopleSearchComponent } from './containers/people-search/people-search.component';
+import { PeopleSearchResolve } from './containers/people-search/people-search.resolve';
 
 const ROUTES: Routes = [
   {
