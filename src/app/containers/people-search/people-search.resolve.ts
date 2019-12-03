@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-
 import { Observable } from 'rxjs';
-
 import { ApiService } from '../../services/api.service';
 import { User } from '../../models/user.interface';
 

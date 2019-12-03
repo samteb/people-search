@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ApiInterceptorService } from './services/api-interceptor.service';
-import { StoreService } from './services/store.service';
 import { AppComponent } from './app.component';
 import { UserComponent } from './components/user/user.component';
 import { PeopleSearchComponent } from './containers/people-search/people-search.component';
@@ -38,7 +37,6 @@ const ROUTES: Routes = [
   ],
   providers: [
     PeopleSearchResolve,
-    StoreService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptorService,
