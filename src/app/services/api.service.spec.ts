@@ -1,13 +1,12 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { environment } from '../../environments/environment';
 import { ApiInterceptorService } from './api-interceptor.service';
 import { ApiService } from './api.service';
 import { User } from '../models/user.interface';
+import { environment } from '../../environments/environment';
 
 describe('ApiService', () => {
-  let injector: TestBed;
   let service: ApiService;
   let httpMock: HttpTestingController;
 
@@ -23,9 +22,8 @@ describe('ApiService', () => {
         }
       ]
     });
-    injector = getTestBed();
-    service = injector.get(ApiService);
-    httpMock = injector.get(HttpTestingController);
+    service = TestBed.get(ApiService);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
   afterEach(() => {
@@ -35,6 +33,16 @@ describe('ApiService', () => {
 
   it('Should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('Should add the serverBaseUrl to each request', () => {
+    service.getUsers(100).subscribe(users => {
+      expect(users).toBeTruthy();
+      expect(users.length).toEqual(100);
+    });
+
+    const httpRequest = httpMock.expectOne(`${environment.serverBaseUrl}/users/100`);
+    expect(httpRequest.request.url.split('/users/100')[0]).toEqual(environment.serverBaseUrl);
   });
 
   it('Should GET users', () => {
@@ -58,9 +66,8 @@ describe('ApiService', () => {
       expect(users).toEqual(mockUsers);
     });
 
-    const req = httpMock.expectOne(`${environment.serverBaseUrl}/users/2`);
-    console.log(req);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockUsers);
+    const httpRequest = httpMock.expectOne(`${environment.serverBaseUrl}/users/2`);
+    expect(httpRequest.request.method).toBe('GET');
+    httpRequest.flush(mockUsers);
   });
 });
