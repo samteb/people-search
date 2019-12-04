@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { combineLatest, Observable } from 'rxjs';
-import { map, pluck, concatMap } from "rxjs/operators";
+import { map, pluck, concatMap } from 'rxjs/operators';
 
 import { User } from '../../models/user.interface';
 import { ApiService } from '../../services/api.service';
