@@ -10,6 +10,7 @@ module.exports = function (config) {
       require('karma-jasmine-given'),
       require('karma-chrome-launcher'),
       require('karma-mocha-reporter'),
+      require('karma-jasmine-diff-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
@@ -21,7 +22,10 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
-    reporters: ['mocha'],
+    mochaReporter: {
+      output: 'minimal'
+    },
+    reporters: ['jasmine-diff', 'mocha'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

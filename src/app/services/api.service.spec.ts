@@ -1,73 +1,60 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ApiInterceptorService } from './api-interceptor.service';
+import { HttpClient } from '@angular/common/http';
+import { createSpyFromClass, Spy } from 'jasmine-auto-spies';
 import { ApiService } from './api.service';
 import { User } from '../models/user.interface';
-import { environment } from '../../environments/environment';
 
 describe('ApiService', () => {
   let service: ApiService;
-  let httpMock: HttpTestingController;
+  let httpSpy: Spy<HttpClient>;
+  let fakeUsers: User[];
+  let actualResult: any;
 
-  beforeEach(() => {
+  Given(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
       providers: [
         ApiService,
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: ApiInterceptorService,
-          multi: true
-        }
+        { provide: HttpClient, useValue: createSpyFromClass(HttpClient) }
       ]
     });
     service = TestBed.get(ApiService);
-    httpMock = TestBed.get(HttpTestingController);
+    httpSpy = TestBed.get(HttpClient);
+    fakeUsers = undefined;
+    actualResult = undefined;
   });
 
-  afterEach(() => {
-    // Check if there are no pending requests
-    httpMock.verify();
-  });
-
-  it('Should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('Should add the serverBaseUrl to each request', () => {
-    service.getUsers(100).subscribe(users => {
-      expect(users).toBeTruthy();
-      expect(users.length).toEqual(100);
+  describe('CREATION: successful', () => {
+    Then(() => {
+      expect(service).toBeTruthy();
+      expect(httpSpy).toBeTruthy();
     });
-
-    const httpRequest = httpMock.expectOne(`${environment.serverBaseUrl}/users/100`);
-    expect(httpRequest.request.url.split('/users/100')[0]).toEqual(environment.serverBaseUrl);
   });
 
-  it('Should GET users', () => {
-    const mockUsers: User[] = [
-      {
-        avatar: 'https://randomuser.me/api/portraits/med/women/88.jpg',
-        email: 'louane.vidal@example.com',
-        gender: 'female',
-        username: 'angryostrich988'
-      },
-      {
-        avatar: 'https://randomuser.me/api/portraits/med/men/99.jpg',
-        email: 'noel.peixoto@example.com',
-        gender: 'male',
-        username: 'greenrabbit529'
-      }
-    ];
-
-    service.getUsers(2).subscribe(users => {
-      expect(users.length).toBe(2);
-      expect(users).toEqual(mockUsers);
+  describe('METHOD: getUsers', () => {
+    When(() => {
+      service.getUsers(2).subscribe(users => actualResult = users);
     });
-
-    const httpRequest = httpMock.expectOne(`${environment.serverBaseUrl}/users/2`);
-    expect(httpRequest.request.method).toBe('GET');
-    httpRequest.flush(mockUsers);
+    describe('GIVEN a successful request THEN return the users', () => {
+      Given(() => {
+        fakeUsers = [
+          {
+            avatar: 'https://randomuser.me/api/portraits/med/women/88.jpg',
+            email: 'louane.vidal@example.com',
+            gender: 'female',
+            username: 'angryostrich988'
+          },
+          {
+            avatar: 'https://randomuser.me/api/portraits/med/men/99.jpg',
+            email: 'noel.peixoto@example.com',
+            gender: 'male',
+            username: 'greenrabbit529'
+          }
+        ];
+        httpSpy.get.and.nextOneTimeWith(fakeUsers);
+      });
+      Then(() => {
+        expect(actualResult).toEqual(fakeUsers);
+      });
+    });
   });
 });

@@ -5,7 +5,6 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, concatMap } from 'rxjs/operators';
 
 import { User } from '../../models/user.interface';
-import { ApiService } from '../../services/api.service';
 import { StoreService } from '../../services/store.service';
 
 @Component({
@@ -20,7 +19,6 @@ export class PeopleSearchComponent implements OnInit {
   page = 1;
 
   constructor(
-    private apiService: ApiService,
     private storeService: StoreService,
     private router: Router,
     private route: ActivatedRoute
