@@ -1,38 +1,49 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { createSpyFromClass, Spy } from 'jasmine-auto-spies';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiInterceptorService } from './api-interceptor.service';
 import { ApiService } from './api.service';
 import { User } from '../models/user.interface';
+import { environment } from '../../environments/environment';
 
 describe('ApiService', () => {
-  let service: ApiService;
-  let httpSpy: Spy<HttpClient>;
+  let apiService: ApiService;
+  let httpMock: HttpTestingController;
   let fakeUsers: User[];
   let actualResult: any;
 
   Given(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
       providers: [
         ApiService,
-        { provide: HttpClient, useValue: createSpyFromClass(HttpClient) }
+        { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptorService, multi: true }
       ]
     });
-    service = TestBed.get(ApiService);
-    httpSpy = TestBed.get(HttpClient);
+    apiService = TestBed.get(ApiService);
+    httpMock = TestBed.get(HttpTestingController);
     fakeUsers = undefined;
     actualResult = undefined;
   });
 
   describe('CREATION: successful', () => {
     Then(() => {
-      expect(service).toBeTruthy();
-      expect(httpSpy).toBeTruthy();
+      expect(apiService).toBeTruthy();
+      expect(httpMock).toBeTruthy();
     });
   });
 
   describe('METHOD: getUsers', () => {
     When(() => {
-      service.getUsers(2).subscribe(users => actualResult = users);
+      const params = {
+        url: `${environment.serverBaseUrl}/users/${fakeUsers.length}`,
+        method: 'GET'
+      };
+      apiService.getUsers(fakeUsers.length).subscribe(users => actualResult = users);
+      httpMock.expectOne(params).flush(fakeUsers);
+      httpMock.verify();
     });
     describe('GIVEN a successful request THEN return the users', () => {
       Given(() => {
@@ -50,7 +61,6 @@ describe('ApiService', () => {
             username: 'greenrabbit529'
           }
         ];
-        httpSpy.get.and.nextOneTimeWith(fakeUsers);
       });
       Then(() => {
         expect(actualResult).toEqual(fakeUsers);
