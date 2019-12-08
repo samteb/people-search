@@ -4,8 +4,8 @@ import { User } from '../models/user.interface';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
-  private usersSource$ = new BehaviorSubject<User[]>([]);
-  private searchTextSource$ = new BehaviorSubject<string>('');
+  private usersSource$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  private searchTextSource$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   public readonly users$: Observable<User[]> = this.usersSource$.asObservable();
   public readonly searchText$: Observable<string> = this.searchTextSource$.asObservable();
