@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptorService } from './api-interceptor.service';
@@ -7,6 +7,7 @@ import { User } from '../models/user.interface';
 import { environment } from '../../environments/environment';
 
 describe('ApiService', () => {
+  let injector: TestBed;
   let apiService: ApiService;
   let httpMock: HttpTestingController;
   let fakeUsers: User[];
@@ -22,8 +23,9 @@ describe('ApiService', () => {
         { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptorService, multi: true }
       ]
     });
-    apiService = TestBed.get(ApiService);
-    httpMock = TestBed.get(HttpTestingController);
+    injector = getTestBed();
+    apiService = injector.get(ApiService);
+    httpMock = injector.get(HttpTestingController);
     fakeUsers = undefined;
     actualResult = undefined;
   });

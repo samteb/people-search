@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 import { createSpyFromClass, Spy } from 'jasmine-auto-spies';
 import { PeopleSearchComponent } from './people-search.component';
 import { StoreService } from '../../services/store.service';
 
 describe('PeopleSearchComponent',() => {
+  let injector: TestBed;
   let peopleSearchComponent: PeopleSearchComponent;
   let storeServiceSpy: Spy<StoreService>;
 
@@ -14,7 +15,8 @@ describe('PeopleSearchComponent',() => {
         { provide: StoreService, useValue: createSpyFromClass(StoreService) },
       ]
     });
-    peopleSearchComponent = TestBed.get(PeopleSearchComponent);
-    storeServiceSpy = TestBed.get(StoreService);
+    injector = getTestBed();
+    peopleSearchComponent = injector.get(PeopleSearchComponent);
+    storeServiceSpy = injector.get(StoreService);
   });
 });
